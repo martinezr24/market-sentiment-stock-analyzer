@@ -13,7 +13,7 @@ def compute_sentiment(news_df):
     news_df['headline'] = news_df['headline'].astype(str)
     news_df['compound'] = news_df['headline'].apply(lambda t: sia.polarity_scores(t)['compound'])
     # get the average of all headlines that day and return the dataframe
-    daily_sent = news_df.groupby('date_only')['compound'].mean().reset_index()
-    daily_sent = daily_sent.rename(columns={'date_only': 'Date', 'compound':'sentiment'})
+    daily_sent = news_df.groupby('date')['compound'].mean().reset_index()
+    daily_sent = daily_sent.rename(columns={'date': 'Date', 'compound':'sentiment'})
     daily_sent['Date'] = pd.to_datetime(daily_sent['Date'])
     return daily_sent

@@ -1,7 +1,7 @@
 import yfinance as yf
 import pandas as pd
 
-def get_stock_data(ticker="AAPL", start="2024-01-01", end="2024-12-31"):
+def get_stock_data(ticker, start, end):
     # get the stock data
     df = yf.download(ticker, start=start, end=end)
 
@@ -20,7 +20,7 @@ def get_stock_data(ticker="AAPL", start="2024-01-01", end="2024-12-31"):
     # returns a table of stock data over a period of time
     return df
 
-def load_headlines(csv_path="data/apple_news_data.csv"):
+def load_headlines(csv_path):
     # read in the csv file and normalize the date column
     news = pd.read_csv(csv_path, parse_dates=['date'])
     news['date'] = pd.to_datetime(news['date']).dt.tz_localize(None).dt.normalize()
