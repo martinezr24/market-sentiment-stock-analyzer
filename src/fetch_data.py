@@ -25,17 +25,30 @@ def fetch_stock_data(ticker, start, end):
     # returns a table of stock data over a period of time
     return df
 
-def fetch_stock_headlines(symbol, days_back=365):
-    end_date = datetime.utcnow()
-    start_date = end_date - timedelta(days=days_back)
+def fetch_stock_headlines(symbol, start_date, end_date, chunk_days=30):
+    """
+    Fetch headlines for a stock symbol between start_date and end_date,
+    splitting the range into smaller chunks to maximize results.
+    """
+    all_news = []
+    current_start = start_date
+    while current_start < end_date:
+        current_end = min(current_start + timedelta(days=chunk_days), end_date)
 
-    # Finnhub expects dates as YYYY-MM-DD strings
-    news = finnhub_client.company_news(symbol, 
-                                       _from=start_date.strftime('%Y-%m-%d'),
-                                       to=end_date.strftime('%Y-%m-%d'))
+        news = finnhub_client.company_news(
+            symbol,
+            _from=current_start.strftime('%Y-%m-%d'),
+            to=current_end.strftime('%Y-%m-%d')
+        )
+
+        if news:
+            all_news.extend(news)
+
+        # move to the next chunk
+        current_start = current_end + timedelta(days=1)
     
     # Convert to DataFrame
-    news_df = pd.DataFrame(news)
+    news_df = pd.DataFrame(all_news)
     
     if news_df.empty:
         return pd.DataFrame(columns=['Date', 'Headline'])
