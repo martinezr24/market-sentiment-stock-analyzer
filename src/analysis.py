@@ -18,8 +18,8 @@ end = st.sidebar.date_input("Until:")
 
 if st.sidebar.button("Run Analysis"):
     """
-    fetches stock + news data, computes sentiment,
-    merges datasets, and displays correlation + plot.
+    fetches stock and news data, computes sentiment,
+    merges datasets, and displays correlation and plot.
     """
 
     with st.spinner("Fetching stock and news data..."):
@@ -46,10 +46,10 @@ if st.sidebar.button("Run Analysis"):
     st.subheader("Merged Data")
     st.dataframe(merged.head())
 
-    # compute correlation + plot results
+    # compute correlation and plot results
     if not merged.empty:
         r, p = pearsonr(merged["return"], merged["Sentiment"])
-        st.write(f"**pearson correlation**: {r:.4f} (p = {p:.4f})")
+        st.write(f"**correlation**: {r:.4f} (p = {p:.4f})")
 
         # scatter plot with line of best fit
         fig, ax = plt.subplots(figsize=(8, 6))
