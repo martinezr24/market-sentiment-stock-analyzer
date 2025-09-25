@@ -6,3 +6,4 @@ scipy==1.16.2
 yfinance==0.2.66
 finnhub-python==2.4.21
 nltk==3.9.1
+python-dotenv==1.0.1
