@@ -27,51 +27,57 @@ if st.sidebar.button("Run Analysis"):
         stock_df = fetch_stock_data(ticker, start, end)
         news_df = fetch_stock_headlines(ticker, start, end)
 
-    # show raw data
-    st.subheader("Raw Stock Data")
-    st.dataframe(stock_df.head())
+    # save results so they last
+    st.session_state["stock_df"] = stock_df
+    st.session_state["news_df"] = news_df
 
-    st.subheader("Raw News Headlines")
-    st.dataframe(news_df.head())
-
-    # compute sentiment scores from headlines
+    # compute sentiment
     daily_sent = compute_sentiment(news_df)
+    stock_df["Date"] = pd.to_datetime(stock_df["Date"]).dt.normalize()
+    daily_sent["Date"] = pd.to_datetime(daily_sent["Date"]).dt.normalize()
+    merged = stock_df.merge(daily_sent, on="Date", how="inner")
+    st.session_state["merged"] = merged
 
-    # normalize and align dates
-    stock_df['Date'] = pd.to_datetime(stock_df['Date']).dt.normalize()
-    daily_sent['Date'] = pd.to_datetime(daily_sent['Date']).dt.normalize()
+    # -- display the analysis --
+    if "stock_df" in st.session_state and "news_df" in st.session_state:
+        stock_df = st.session_state["stock_df"]
+        news_df = st.session_state["news_df"]
+        merged = st.session_state["merged"]
 
-    # merge stock and sentiment data
-    merged = stock_df.merge(daily_sent, on='Date', how='inner')
+        # show raw data
+        st.subheader("Raw Stock Data")
+        st.dataframe(stock_df.head())
 
-    st.subheader("Merged Data")
-    st.dataframe(merged.head())
+        st.subheader("Raw News Headlines")
+        st.dataframe(news_df.head())
 
-    # compute correlation and plot results
-    if not merged.empty:
-        r, p = pearsonr(merged["return"], merged["Sentiment"])
-        st.write(f"**correlation**: {r:.4f} (p = {p:.4f})")
+        # merge stock and sentiment data
+        st.subheader("Merged Data")
+        st.dataframe(merged.head())
 
-        # scatter plot with line of best fit
-        fig, ax = plt.subplots(figsize=(8, 6))
-        x, y = merged["Sentiment"], merged["return"]
+        # compute correlation and plot results
+        if not merged.empty:
+            r, p = pearsonr(merged["return"], merged["Sentiment"])
+            st.write(f"**correlation**: {r:.4f} (p = {p:.4f})")
 
-        ax.scatter(x, y, alpha=0.7, label="data points")
-        m, b = np.polyfit(x, y, 1)
-        ax.plot(x, m * x + b, color="red", linewidth=2, label="best fit line")
-
-        ax.set_xlabel("Daily Sentiment")
-        ax.set_ylabel("Daily Return")
-        ax.set_title(f"Sentiment vs Return: {ticker}")
-        ax.axhline(0, color="black", linewidth=1, linestyle="--")
-        ax.axvline(0, color="black", linewidth=1, linestyle="--")
-        ax.grid(True, linestyle=":", alpha=0.5)
-        ax.legend()
-        st.pyplot(fig)
+            # scatter plot with line of best fit
+            fig, ax = plt.subplots(figsize=(8, 6))
+            x, y = merged["Sentiment"], merged["return"]
+            ax.scatter(x, y, alpha=0.7, label="data points")
+            m, b = np.polyfit(x, y, 1)
+            ax.plot(x, m * x + b, color="red", linewidth=2, label="best fit line")
+            ax.set_xlabel("Daily Sentiment")
+            ax.set_ylabel("Daily Return")
+            ax.set_title(f"Sentiment vs Return: {ticker}")
+            ax.axhline(0, color="black", linewidth=1, linestyle="--")
+            ax.axvline(0, color="black", linewidth=1, linestyle="--")
+            ax.grid(True, linestyle=":", alpha=0.5)
+            ax.legend()
+            st.pyplot(fig)
     else:
         st.warning("No merged data available. Try different dates or a different ticker.")
 
- # gives the senitment score of a custom headline
+# -- gives the senitment score of a custom headline -- 
 st.sidebar.markdown("---")
 st.sidebar.subheader("🔍 Test a Custom Headline")
 
