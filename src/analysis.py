@@ -6,6 +6,7 @@ from datetime import datetime
 from scipy.stats import pearsonr
 from sentiment import compute_sentiment
 from fetch_data import fetch_stock_data, fetch_stock_headlines
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
 
 st.title("📈 Stock Sentiment vs Returns")
 
@@ -69,3 +70,17 @@ if st.sidebar.button("Run Analysis"):
         st.pyplot(fig)
     else:
         st.warning("No merged data available. Try different dates or a different ticker.")
+
+ # gives the senitment score of a custom headline
+st.sidebar.markdown("---")
+st.sidebar.subheader("🔍 Test a Custom Headline")
+
+custom_headline = st.sidebar.text_area("Enter a headline")
+if custom_headline:
+    sia = SentimentIntensityAnalyzer()
+    scores = sia.polarity_scores(custom_headline)
+
+    st.subheader("Sentiment Analysis of Custom Headline")
+    st.write(f"**Headline:** {custom_headline}")
+    # shows compound, pos, neu, neg scores
+    st.json(scores) 
