@@ -3,7 +3,9 @@ import yfinance as yf
 import pandas as pd
 from datetime import timedelta
 
-API_KEY = ""
+# load variables from .env
+load_dotenv()
+API_KEY = os.getenv("FINNHUB_API_KEY")
 finnhub_client = finnhub.Client(api_key=API_KEY)
 
 
