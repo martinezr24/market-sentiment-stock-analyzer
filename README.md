@@ -47,7 +47,7 @@ FINNHUB_API_KEY="YOUR_API_KEY_HERE"
 Run the program with:
 
 ```bash
-streamlit run analysis.py
+streamlit run src/analysis.py
 ```
 
 ## 📊 Example Output
