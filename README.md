@@ -23,10 +23,8 @@ Create and activate a virtual environment:
 
 ```bash
 python -m venv venv
-# Mac/Linux
-source venv/bin/activate
-# Windows
-venv\Scripts\activate
+source venv/bin/activate # Mac/Linux
+venv\Scripts\activate # Windowss
 ```
 
 Install dependencies:
@@ -38,7 +36,7 @@ pip install -r requirements.txt
 ## 🔑 Setup API Key
 
 1. Sign up at [Finnhub API](https://finnhub.io/) and get a free API key.  
-2. Create a `.env` file in the project root and add your API key:
+2. Update the `.env` file in the project root to add your API key:
 
 ```text
 FINNHUB_API_KEY="YOUR_API_KEY_HERE"
@@ -46,7 +44,7 @@ FINNHUB_API_KEY="YOUR_API_KEY_HERE"
 
 ## ▶️ Running the App
 
-Run the Streamlit app:
+Run the program:
 
 ```bash
 streamlit run analysis.py
