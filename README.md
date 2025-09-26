@@ -44,7 +44,7 @@ FINNHUB_API_KEY="YOUR_API_KEY_HERE"
 
 ## ▶️ Running the App
 
-Run the program:
+Run the program with:
 
 ```bash
 streamlit run analysis.py
