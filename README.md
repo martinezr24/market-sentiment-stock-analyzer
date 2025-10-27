@@ -1,8 +1,8 @@
-# 📈 Market Sentiment Stock Analyzer
+# Market Sentiment Stock Analyzer
 
 This project analyzes the relationship between news sentiment and stock returns. It fetches stock price data and recent news headlines, computes sentiment scores using VADER (NLTK), and visualizes correlations in a Streamlit dashboard.
 
-## 🚀 Features
+## Features
 
 - Fetch historical stock data ([Yahoo Finance](https://pypi.org/project/yfinance/))
 - Fetch recent news headlines ([Finnhub API](https://finnhub.io/))
@@ -10,7 +10,7 @@ This project analyzes the relationship between news sentiment and stock returns.
 - Plot correlation between sentiment and daily stock returns
 - Test custom headlines for sentiment
 
-## 🛠️ Installation
+## Installation
 
 Clone the repository:
 
@@ -33,7 +33,7 @@ Install dependencies:
 pip install -r requirements.txt
 ```
 
-## 🔑 Setup API Key
+## Setup API Key
 
 1. Sign up at [Finnhub API](https://finnhub.io/) and get a free API key.  
 2. Update the `.env` file in the project root to add your API key:
@@ -42,7 +42,7 @@ pip install -r requirements.txt
 FINNHUB_API_KEY="YOUR_API_KEY_HERE"
 ```
 
-## ▶️ Running the App
+## Running the App
 
 Run the program with:
 
@@ -50,14 +50,14 @@ Run the program with:
 streamlit run src/analysis.py
 ```
 
-## 📊 Example Output
+## Example Output
 
 - Scatter plot showing correlation between sentiment and stock returns.  
 - Custom headline sentiment analysis displaying positive, neutral, negative, and compound scores.
 
-## 🙌 Acknowledgements
+## Acknowledgements
 
-- [Streamlit](https://streamlit.io/) for the interactive dashboard  
-- [NLTK](https://www.nltk.org/) for sentiment analysis  
-- [Yahoo Finance](https://pypi.org/project/yfinance/) for stock data  
-- [Finnhub API](https://finnhub.io/) for news headlines
+- [Streamlit](https://streamlit.io/): interactive dashboard  
+- [NLTK](https://www.nltk.org/): sentiment analysis  
+- [Yahoo Finance](https://pypi.org/project/yfinance/): stock data  
+- [Finnhub API](https://finnhub.io/): news headlines
