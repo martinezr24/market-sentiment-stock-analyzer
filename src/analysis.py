@@ -46,14 +46,15 @@ if st.sidebar.button("Run Analysis"):
 
         # show raw data
         st.subheader("Raw Stock Data")
-        st.dataframe(stock_df.head())
+        st.dataframe(stock_df)
 
         st.subheader("Raw News Headlines")
-        st.dataframe(news_df.head())
+        st.dataframe(news_df)
 
         # merge stock and sentiment data
         st.subheader("Merged Data")
-        st.dataframe(merged.head())
+        st.dataframe(merged)
+
 
         # compute correlation and plot results
         if not merged.empty:
